@@ -1,0 +1,18 @@
+{
+  "name": "LEVEL UP — Tu panel personal",
+  "short_name": "LEVEL UP",
+  "description": "Hábitos, actividad física y organización personal.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101216",
+  "theme_color": "#111318",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

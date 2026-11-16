@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111318">
+<title>LEVEL UP — Tu panel personal</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LEVEL UP">
+<meta name="description" content="Tu panel personal para hábitos, actividad física y organización.">
+
+<style>
+:root{--bg:#101216;--panel:#191d24;--panel2:#202630;--text:#f2f4f7;--muted:#9ba5b2;--line:#2c3440;--accent:#9be15d;--accent2:#c7f28b;--red:#ff7777;--yellow:#f4c96b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:#15200e;font-weight:700}button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#48272b;color:#ffd9dc}button.small{padding:7px 10px;font-size:13px}
+.app{display:grid;grid-template-columns:235px 1fr;min-height:100vh;min-height:100dvh}.side{background:#15191f;border-right:1px solid var(--line);padding:25px 16px;position:sticky;top:0;height:100vh}.brand{font-size:22px;font-weight:900;letter-spacing:1px;margin:4px 10px 4px}.brand span{color:var(--accent)}.tag{color:var(--muted);font-size:12px;margin:0 10px 28px}.nav{display:grid;gap:7px}.nav button{background:transparent;color:var(--muted);text-align:left;font-weight:600}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--text)}.side-note{position:absolute;bottom:22px;left:20px;right:20px;color:var(--muted);font-size:12px}.main{padding:30px;max-width:1400px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;font-size:11px;font-weight:800}.top h1{margin:3px 0;font-size:30px}.date{color:var(--muted)}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:19px;min-width:0}.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}.card h2{font-size:17px;margin:0 0 12px}.muted{color:var(--muted)}.big{font-size:34px;font-weight:850}.progress{height:9px;background:#303844;border-radius:20px;overflow:hidden;margin:12px 0}.progress>i{display:block;height:100%;background:var(--accent);width:0;border-radius:20px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.stack{display:grid;gap:10px}.item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;background:var(--panel2);border:1px solid var(--line);border-radius:11px}.item label{display:flex;align-items:center;gap:10px;min-width:0}.item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}.item small{display:block;color:var(--muted)}.pill{font-size:11px;border-radius:30px;padding:4px 8px;background:#2b3540;color:#c8d1dc;white-space:nowrap}.form{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.form input,.form select,.form textarea{background:#11151b;border:1px solid var(--line);border-radius:9px;color:var(--text);padding:10px;min-width:0}.form input{flex:1}.form textarea{width:100%;min-height:70px}.section-title{margin:24px 0 12px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}.metric{font-size:26px;font-weight:800}.notice{padding:13px;border-radius:11px;background:#273321;border:1px solid #435b34;color:#e5f6d6}.warn{background:#332d20;border-color:#64512c;color:#f7e5b7}.chat{height:260px;overflow:auto;background:#11151b;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:9px}.bubble{padding:10px 12px;border-radius:12px;max-width:90%;background:var(--panel2)}.bubble.me{align-self:flex-end;background:#35452b}.foodrow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px}.foodrow>*{min-width:0}.bar{height:7px;border-radius:10px;background:#303844;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}.empty{color:var(--muted);font-size:13px;padding:12px;text-align:center}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{padding:9px 4px;text-align:center;background:var(--panel2);border-radius:8px;font-size:12px}.day b{display:block;font-size:15px}.day.done{outline:1px solid var(--accent);background:#283522}.tiny{font-size:12px}.footer{color:var(--muted);font-size:12px;margin-top:20px}
+@media(max-width:850px){
+ .app{display:block;min-height:100dvh}.side{height:auto;position:static;padding:12px 14px 8px;border-right:0;border-bottom:1px solid var(--line)}
+ .brand{font-size:19px;margin:0 4px}.tag,.side-note{display:none}
+ .nav{position:fixed;z-index:20;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;overflow:visible;background:#15191f;border-top:1px solid var(--line);padding:7px 5px calc(7px + env(safe-area-inset-bottom))}
+ .nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;white-space:normal;text-align:center;padding:7px 2px;border-radius:9px;font-size:10px;line-height:1.1;min-height:49px}
+ .main{padding:17px 13px calc(94px + env(safe-area-inset-bottom));max-width:680px}
+ .top{align-items:flex-start;margin-bottom:17px}.top h1{font-size:23px;line-height:1.2}.date{font-size:12px}
+ .top>button{font-size:11px;padding:9px 10px;max-width:115px}
+ .grid{gap:12px}.card{padding:15px;border-radius:14px}
+ .span8,.span7,.span6,.span5,.span4{grid-column:span 12}
+ .item{padding:12px 10px;gap:8px}.item>div.row{flex-wrap:wrap;justify-content:flex-end}
+ button,select,input{min-height:42px}button.small{min-height:36px}
+ .form{gap:8px}.form input,.form select{width:100%;flex:1 1 100%}.form button{width:100%}
+ .chat{height:42vh;min-height:230px}.big{font-size:30px}
+ .calendar{gap:4px}.day{padding:8px 2px;font-size:10px}
+}
+@media(max-width:380px){.nav button{font-size:9px}.nav{padding-left:2px;padding-right:2px}.top h1{font-size:20px}.card{padding:13px}}
+@media(min-width:851px){.nav button{width:100%}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand">LEVEL <span>UP</span></div><div class="tag">TU PANEL PERSONAL</div>
+ <nav class="nav">
+  <button class="active" data-view="home">⌂ &nbsp; Inicio</button>
+  <button data-view="habits">✓ &nbsp; Hábitos</button>
+  <button data-view="activity">↗ &nbsp; Actividad física</button>
+  <button data-view="nutrition">✳ &nbsp; Nutrición</button>
+  <button data-view="reminders">◷ &nbsp; Recordatorios</button>
+  <button data-view="assistant">✦ &nbsp; Asistente</button>
+  <button data-view="stats">▥ &nbsp; Estadísticas</button>
+ </nav>
+ <div class="side-note">Tus datos se guardan en este navegador. No reemplaza el consejo de un profesional de salud.</div>
+</aside>
+<main class="main">
+<header class="top"><div><div class="eyebrow">Tu progreso, a tu ritmo</div><h1 id="pageTitle">Buen día. Vamos paso a paso.</h1><div class="date" id="todayText"></div></div><button class="secondary" id="notifyPermission">Activar notificaciones</button></header>
+
+<section id="home" class="view active">
+ <div class="grid">
+  <div class="card span8"><div class="row"><div><div class="eyebrow">Hoy</div><h2>Tu resumen diario</h2></div><span class="pill" id="todayLabel"></span></div><div class="row"><div><div class="big" id="homePercent">0%</div><div class="muted tiny">hábitos completados</div></div><div style="width:58%"><div class="progress"><i id="homeProgress"></i></div><div class="muted tiny" id="homeCount">0 de 0 hábitos</div></div></div><div class="section-title">Lo que tenés por delante</div><div id="homeActivities" class="stack"></div></div>
+  <div class="card span4"><div class="eyebrow">Compromiso del día</div><h2>Elegí tu prioridad</h2><p class="muted tiny">Una acción importante y realista para hoy.</p><div class="form"><input id="priorityInput" placeholder="Ej. Ir al gimnasio"><button id="savePriority">Guardar</button></div><div id="priorityShow" class="notice">Todavía no elegiste una prioridad.</div></div>
+  <div class="card span6"><h2>Hábitos de hoy</h2><div id="homeHabits" class="stack"></div><button class="secondary small" style="margin-top:12px" data-go="habits">Ver todos los hábitos</button></div>
+  <div class="card span6"><h2>Un consejo para hoy</h2><div class="notice" id="dailyTip">No esperes a tener ganas: hacé que el primer paso sea fácil. Prepará lo que necesitás con anticipación.</div><p class="muted tiny">La constancia se construye con acciones pequeñas y repetibles, no con días perfectos.</p></div>
+ </div>
+</section>
+
+<section id="habits" class="view">
+ <div class="grid">
+  <div class="card span7"><h2>Seguimiento de hábitos</h2><p class="muted tiny">Marcá cómo te fue hoy. Podés cambiar el estado durante el día.</p><div id="habitList" class="stack"></div><div class="form"><input id="newHabit" placeholder="Agregar un hábito"><button id="addHabit">Agregar</button></div></div>
+  <div class="card span5"><h2>Cómo sostenerlos</h2><div class="stack">
+   <div class="item"><div><b>Hacelo fácil</b><small>Dejá preparada la ropa o la mochila.</small></div></div>
+   <div class="item"><div><b>Empezá pequeño</b><small>Probá cinco minutos para vencer la barrera de inicio.</small></div></div>
+   <div class="item"><div><b>Volvé al plan</b><small>Si un día no sale, retomá en la próxima oportunidad.</small></div></div>
+   <div class="item"><div><b>Revisá obstáculos</b><small>Registrá qué te dificultó cumplir, sin castigarte.</small></div></div>
+  </div></div>
+ </div>
+</section>
+
+<section id="activity" class="view">
+ <div class="grid">
+  <div class="card span7"><h2>Actividad física</h2><p class="muted tiny">Agregá gimnasio, caminatas, deporte, movilidad o descanso. Elegí una frecuencia que puedas sostener.</p><div id="activityList" class="stack"></div></div>
+  <div class="card span5"><h2>Agregar actividad</h2><div class="form"><input id="actName" placeholder="Ej. Gimnasio"><select id="actFrequency"><option value="Lun, Mié, Vie">Lun, Mié, Vie</option><option value="Todos los días">Todos los días</option><option value="Mar, Jue">Mar, Jue</option><option value="Sáb, Dom">Sáb, Dom</option><option value="Una vez">Una vez</option></select><input id="actTime" type="time" value="17:00"><button id="addActivity">Agregar</button></div><div class="notice tiny">La actividad debe adaptarse a tu energía, tus horarios y tu recuperación. Los días de descanso también cuentan.</div></div>
+ </div>
+</section>
+
+<section id="nutrition" class="view">
+ <div class="grid">
+  <div class="card span7"><h2>Nutrición: registro diario</h2><p class="muted tiny">Registrá hábitos generales, no calorías. Podés marcar “parcial” cuando lo hiciste en parte.</p><div id="nutritionList" class="stack"></div><div class="section-title">Registro de comidas (opcional)</div><div class="form"><select id="mealType"><option>Desayuno</option><option>Media mañana</option><option>Almuerzo</option><option>Merienda</option><option>Cena</option></select><input id="mealText" placeholder="¿Qué comiste?"><button id="addMeal">Guardar</button></div><div id="mealList" class="stack"></div></div>
+  <div class="card span5"><h2>Guía rápida de alimentación</h2>
+   <div class="stack">
+    <div class="item"><div><b>Proteínas</b><small>Incluí una fuente en las comidas principales; no hace falta que todas tengan la misma cantidad. Ej.: huevos, pollo, carne, lácteos o legumbres.</small></div></div>
+    <div class="item"><div><b>Frutas y verduras</b><small>Buscá variedad a lo largo del día. Como orientación general, 2 porciones de fruta y verduras en almuerzo y cena pueden ser un buen punto de partida.</small></div></div>
+    <div class="item"><div><b>Carbohidratos</b><small>Arroz, papa, avena, pan y pastas aportan energía; no hace falta eliminarlos.</small></div></div>
+    <div class="item"><div><b>Agua</b><small>Tomá regularmente y aumentá según calor y actividad. La sed y el color amarillo pálido de la orina pueden orientar.</small></div></div>
+   </div>
+   <div class="notice warn tiny" style="margin-top:12px">Las porciones y necesidades cambian según crecimiento, actividad y salud. Esta guía no fija gramos de proteína, calorías ni una dieta para adelgazar. Para cantidades personales, consultá con un/a nutricionista que trabaje con adolescentes.</div>
+  </div>
+ </div>
+</section>
+
+<section id="reminders" class="view">
+ <div class="grid">
+  <div class="card span7"><h2>Recordatorios programados</h2><p class="muted tiny">Primero tocá “Activar notificaciones” y aceptá el permiso del navegador. Después creá tus avisos acá. Importante: esta versión revisa los horarios mientras LEVEL UP está abierta; todavía no puede avisarte con la página cerrada.</p><div id="reminderList" class="stack"></div></div>
+  <div class="card span5"><h2>Crear recordatorio</h2><div class="form"><input id="remText" placeholder="Ej. Preparar bolso del gimnasio"><input id="remTime" type="time" value="16:30"><select id="remDays"><option value="Todos">Todos los días</option><option value="Lun, Mié, Vie">Lun, Mié, Vie</option><option value="Mar, Jue">Mar, Jue</option><option value="Sáb, Dom">Sáb, Dom</option></select><button id="addReminder">Crear</button></div><button class="secondary" id="testNotification">Enviar notificación de prueba</button></div>
+ </div>
+</section>
+
+<section id="assistant" class="view">
+ <div class="grid">
+  <div class="card span7"><h2>Asistente de constancia</h2><p class="muted tiny">Este asistente inicial funciona con respuestas y reglas locales; no es todavía una IA conectada a internet.</p><div class="chat" id="chat"><div class="bubble">¡Hola! Puedo ayudarte a empezar, reorganizar una actividad o pensar qué te está dificultando mantener un hábito.</div></div><div class="form"><input id="chatInput" placeholder="Ej. Hoy no tengo ganas de caminar"><button id="sendChat">Enviar</button></div></div>
+  <div class="card span5"><h2>Atajos y palabras clave</h2><p class="muted tiny">Escribí una palabra o frase. Puedo orientarte sobre estos temas:</p><div class="stack"><button class="secondary" data-prompt="Motivación">Motivación</button><button class="secondary" data-prompt="Gimnasio y actividad física">Gimnasio</button><button class="secondary" data-prompt="Progreso de hoy">Mi progreso</button><button class="secondary" data-prompt="Hábitos">Hábitos</button><button class="secondary" data-prompt="Organizar mi semana">Organizar la semana</button><button class="secondary" data-prompt="Nutrición y comidas">Nutrición</button><button class="secondary" data-prompt="Descanso">Descanso</button><button class="secondary" data-prompt="Recordatorios">Recordatorios</button><button class="secondary" data-prompt="Ayuda">Ayuda</button></div></div>
+ </div>
+</section>
+
+<section id="stats" class="view">
+ <div class="grid">
+  <div class="card span4"><div class="muted tiny">Hábitos completados hoy</div><div class="metric" id="statToday">0%</div></div>
+  <div class="card span4"><div class="muted tiny">Actividades registradas</div><div class="metric" id="statActivities">0</div></div>
+  <div class="card span4"><div class="muted tiny">Días con registros</div><div class="metric" id="statDays">0</div></div>
+  <div class="card span12"><h2>Últimos 7 días</h2><div class="calendar" id="weekCalendar"></div><p class="muted tiny">El progreso muestra tus registros, no define tu valor ni exige una racha perfecta.</p></div>
+ </div>
+</section>
+<div class="footer">LEVEL UP · Versión inicial · Los datos se guardan localmente en este dispositivo.</div>
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toISOString().slice(0,10);
+const defaults=[
+ {id:'h1',name:'Dormí lo suficiente',group:'Bienestar'},
+ {id:'h2',name:'Hice una actividad o respeté mi descanso',group:'Movimiento'},
+ {id:'h3',name:'Estudié o avancé con una tarea',group:'Organización'},
+ {id:'h4',name:'Organicé mis cosas para mañana',group:'Organización'}
+];
+let data=JSON.parse(localStorage.getItem('levelup_v1')||'null')||{habits:defaults,checks:{},activities:[{id:'a1',name:'Gimnasio',frequency:'Lun, Mié, Vie',time:'17:00'},{id:'a2',name:'Salir a caminar',frequency:'Mar, Jue',time:'18:30'}],activityChecks:{},reminders:[],nutritionChecks:{},meals:{},priority:{},chat:[],fired:{}};
+function save(){localStorage.setItem('levelup_v1',JSON.stringify(data));renderAll()}
+function dayData(obj,key){return obj[key]||(obj[key]={})}
+function statusFor(id){return (data.checks[today()]||{})[id]||'no'}
+function setStatus(id,s){dayData(data.checks,today())[id]=s;save()}
+function nav(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));$('pageTitle').textContent=({home:'Buen día. Vamos paso a paso.',habits:'Tus hábitos',activity:'Movimiento y actividad física',nutrition:'Nutrición y bienestar',reminders:'Tus recordatorios',assistant:'Tu asistente',stats:'Tu progreso'})[view];renderAll()}
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>nav(b.dataset.view));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>nav(b.dataset.go));
+function statusButtons(id,current,fn){return `<select aria-label="Estado" data-status="${id}"><option value="no" ${current==='no'?'selected':''}>Pendiente</option><option value="partial" ${current==='partial'?'selected':''}>Parcial</option><option value="yes" ${current==='yes'?'selected':''}>Cumplido</option></select>`}
+function renderHabits(){let list=data.habits.map(h=>`<div class="item"><label><span><b>${esc(h.name)}</b><small>${h.group||'Personal'}</small></span></label><div class="row">${statusButtons(h.id,statusFor(h.id))}<button class="danger small" data-delhabit="${h.id}">×</button></div></div>`).join('');$('habitList').innerHTML=list||'<div class="empty">Todavía no agregaste hábitos.</div>';let home=data.habits.slice(0,5).map(h=>`<div class="item"><span>${esc(h.name)}</span>${statusButtons(h.id,statusFor(h.id))}</div>`).join('');$('homeHabits').innerHTML=home||'<div class="empty">Agregá tu primer hábito.</div>';document.querySelectorAll('[data-status]').forEach(s=>s.onchange=()=>setStatus(s.dataset.status,s.value));document.querySelectorAll('[data-delhabit]').forEach(b=>b.onclick=()=>{data.habits=data.habits.filter(h=>h.id!==b.dataset.delhabit);save()})}
+$('addHabit').onclick=()=>{let n=$('newHabit').value.trim();if(!n)return;data.habits.push({id:'h'+Date.now(),name:n,group:'Personal'});$('newHabit').value='';save()};
+function isTodayScheduled(freq){let d=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][new Date().getDay()];return freq==='Todos los días'||freq==='Todos'||freq.split(', ').includes(d)||freq==='Una vez'}
+function renderActivities(){ $('activityList').innerHTML=data.activities.map(a=>{let done=(data.activityChecks[today()]||{})[a.id];return `<div class="item"><div><b>${esc(a.name)}</b><small>${esc(a.frequency)} · ${esc(a.time)}</small></div><div class="row"><span class="pill">${done?'Completada':isTodayScheduled(a.frequency)?'Programada hoy':'Otro día'}</span><button class="small ${done?'secondary':''}" data-actdone="${a.id}">${done?'Deshacer':'Completé'}</button><button class="danger small" data-delact="${a.id}">×</button></div></div>`}).join('')||'<div class="empty">Agregá una actividad.</div>';document.querySelectorAll('[data-actdone]').forEach(b=>b.onclick=()=>{let o=dayData(data.activityChecks,today());o[b.dataset.actdone]=!o[b.dataset.actdone];save()});document.querySelectorAll('[data-delact]').forEach(b=>b.onclick=()=>{data.activities=data.activities.filter(a=>a.id!==b.dataset.delact);save()})}
+$('addActivity').onclick=()=>{let name=$('actName').value.trim();if(!name)return;data.activities.push({id:'a'+Date.now(),name,frequency:$('actFrequency').value,time:$('actTime').value});$('actName').value='';save()};
+const nutItems=[['protein','Incluí una fuente de proteína en mis comidas principales'],['fruit','Comí frutas'],['veg','Comí verduras'],['water','Tomé agua regularmente'],['balanced','Tuve comidas variadas y suficientes']];
+function renderNutrition(){let o=data.nutritionChecks[today()]||{};$('nutritionList').innerHTML=nutItems.map(([id,name])=>`<div class="item"><span>${name}</span>${statusButtons('nut_'+id,o[id]||'no')}</div>`).join('');document.querySelectorAll('[data-status^="nut_"]').forEach(s=>s.onchange=()=>{dayData(data.nutritionChecks,today())[s.dataset.status.slice(4)]=s.value;save()});let meals=data.meals[today()]||[];$('mealList').innerHTML=meals.map((m,i)=>`<div class="item"><span><b>${esc(m.type)}</b><small>${esc(m.text)}</small></span><button class="danger small" data-delmeal="${i}">×</button></div>`).join('')}
+$('addMeal').onclick=()=>{let t=$('mealText').value.trim();if(!t)return;dayData(data.meals,today());data.meals[today()].push({type:$('mealType').value,text:t});$('mealText').value='';save()};
+document.addEventListener('click',e=>{if(e.target.dataset.delmeal!==undefined){data.meals[today()].splice(+e.target.dataset.delmeal,1);save()}});
+function renderReminders(){$('reminderList').innerHTML=data.reminders.map(r=>`<div class="item"><div><b>${esc(r.text)}</b><small>${esc(r.days)} · ${esc(r.time)}</small></div><button class="danger small" data-delrem="${r.id}">Eliminar</button></div>`).join('')||'<div class="empty">Todavía no hay recordatorios.</div>';document.querySelectorAll('[data-delrem]').forEach(b=>b.onclick=()=>{data.reminders=data.reminders.filter(r=>r.id!==b.dataset.delrem);save()})}
+$('addReminder').onclick=()=>{let text=$('remText').value.trim();if(!text)return;data.reminders.push({id:'r'+Date.now(),text,time:$('remTime').value,days:$('remDays').value});$('remText').value='';save()};
+function renderHome(){let states=data.habits.map(h=>statusFor(h.id));let done=states.filter(s=>s==='yes').length,partial=states.filter(s=>s==='partial').length,total=states.length,pct=total?Math.round((done+partial*.5)/total*100):0;$('homePercent').textContent=pct+'%';$('homeProgress').style.width=pct+'%';$('homeCount').textContent=`${done} completos · ${partial} parciales · ${total} hábitos`;$('todayLabel').textContent=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});let scheduled=data.activities.filter(a=>isTodayScheduled(a.frequency));$('homeActivities').innerHTML=scheduled.map(a=>`<div class="item"><span><b>${esc(a.name)}</b><small>${a.time}</small></span><span class="pill">${(data.activityChecks[today()]||{})[a.id]?'Completada':'Pendiente'}</span></div>`).join('')||'<div class="empty">No hay actividades programadas para hoy.</div>';let p=data.priority[today()]||'';$('priorityShow').textContent=p||'Todavía no elegiste una prioridad.';$('priorityInput').value=p}
+$('savePriority').onclick=()=>{data.priority[today()]=$('priorityInput').value.trim();save()};
+function renderStats(){let states=data.habits.map(h=>statusFor(h.id)),done=states.filter(s=>s==='yes').length,partial=states.filter(s=>s==='partial').length;$('statToday').textContent=(states.length?Math.round((done+partial*.5)/states.length*100):0)+'%';$('statActivities').textContent=Object.values(data.activityChecks).reduce((n,o)=>n+Object.values(o).filter(Boolean).length,0);$('statDays').textContent=Object.keys(data.checks).filter(k=>Object.values(data.checks[k]).some(v=>v!=='no')).length;$('weekCalendar').innerHTML=Array.from({length:7},(_,i)=>{let d=new Date();d.setDate(d.getDate()-6+i);let key=d.toISOString().slice(0,10),vals=Object.values(data.checks[key]||{}),ok=vals.some(v=>v==='yes'||v==='partial');return `<div class="day ${ok?'done':''}">${d.toLocaleDateString('es-AR',{weekday:'short'})}<b>${d.getDate()}</b>${ok?'✓':'·'}</div>`}).join('')}
+function renderAll(){renderHabits();renderActivities();renderNutrition();renderReminders();renderHome();renderStats()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('todayText').textContent=new Date().toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function notify(title,body){if('Notification'in window&&Notification.permission==='granted')new Notification(title,{body});else alert(title+'\n'+body)}
+$('notifyPermission').onclick=async()=>{if(!('Notification'in window)){alert('Este navegador no admite notificaciones. Probá con Chrome o Safari actualizado.');return}if(!window.isSecureContext){alert('Las notificaciones requieren abrir LEVEL UP desde su dirección HTTPS de GitHub Pages.');return}let p=await Notification.requestPermission();alert(p==='granted'?'¡Permiso activado! Ahora entrá en Recordatorios, creá un aviso y dejá LEVEL UP abierta cerca de la hora elegida.':'No se concedió el permiso. Revisá los permisos de notificaciones del sitio en la configuración del navegador.')};
+$('testNotification').onclick=()=>notify('LEVEL UP','¡Este es un recordatorio de prueba!');function checkReminders(){if(!('Notification'in window)||Notification.permission!=='granted')return;let now=new Date(),day=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][now.getDay()],time=now.toTimeString().slice(0,5),key=today()+'_'+time;data.reminders.filter(r=>r.time===time&&(r.days==='Todos'||r.days.split(', ').includes(day))).forEach(r=>{let f=key+'_'+r.id;if(!data.fired[f]){notify('LEVEL UP · Recordatorio',r.text);data.fired[f]=true;localStorage.setItem('levelup_v1',JSON.stringify(data))}})}setInterval(checkReminders,15000);
+function assistantReply(t){
+ let s=t.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+ const habitStates=data.habits.map(h=>statusFor(h.id));
+ const completed=habitStates.filter(x=>x==='yes').length;
+ const partial=habitStates.filter(x=>x==='partial').length;
+ const activityDone=Object.values(data.activityChecks[today()]||{}).filter(Boolean).length;
+ const scheduled=data.activities.filter(a=>isTodayScheduled(a.frequency)).length;
+ const nut=data.nutritionChecks[today()]||{};
+ if(s.includes('ayuda')||s==='hola'||s.includes('que podes'))return '¡Puedo ayudarte! Probá escribiendo: motivación, progreso, hábitos, gimnasio, semana, nutrición, descanso o recordatorios. También podés contarme qué te está costando.';
+ if(s.includes('progreso')||s.includes('estadistica')||s.includes('como voy'))return `Tu resumen de hoy: ${completed} hábito(s) cumplido(s), ${partial} parcial(es) y ${habitStates.length-completed-partial} pendiente(s). Actividades marcadas como realizadas: ${activityDone}. Actividades programadas para hoy: ${scheduled}. Cada registro es una referencia para organizarte, no una calificación.`;
+ if(s.includes('habito'))return `Tenés ${data.habits.length} hábito(s) en tu lista. Hoy: ${completed} cumplido(s), ${partial} parcial(es) y ${habitStates.length-completed-partial} pendiente(s). Elegí uno que sea importante y hacelo manejable. La constancia se construye de a poco.`;
+ if(s.includes('recordatorio')||s.includes('notificacion')||s.includes('aviso'))return 'Para configurar un aviso: entrá en Recordatorios, tocá “Activar notificaciones” y aceptá el permiso del navegador. Después escribí qué querés recordar, elegí la hora y los días y tocá Crear. En esta versión, LEVEL UP debe permanecer abierta para revisar los horarios.';
+ if(s.includes('motivacion')||s.includes('ganas')||s.includes('desanimo'))return 'No necesitás sentir motivación todo el tiempo. Elegí un paso pequeño y posible para hoy. Si hoy necesitás bajar el ritmo o descansar, también forma parte de cuidarte y sostener una rutina.';
+ if(s.includes('gimnasio')||s.includes('entren')||s.includes('caminar')||s.includes('actividad fisica')||s.includes('mover'))return 'Revisá qué actividad tenés programada para hoy en la sección Actividad física. Preparar la ropa o el bolso con anticipación puede facilitar el comienzo. Adaptá la actividad a cómo te sentís y dejá espacio para recuperarte.';
+ if(s.includes('no pude')||s.includes('fall')||s.includes('incumpl')||s.includes('me atrase'))return 'Un día difícil no borra lo que ya hiciste. Pensá qué obstáculo apareció: horario, cansancio, falta de preparación o una tarea inesperada. Elegí un ajuste pequeño para la próxima vez, sin intentar recuperar todo de golpe.';
+ if(s.includes('semana')||s.includes('organ'))return 'Probá distribuir tus actividades alrededor de tus compromisos fijos. Dejá espacios de descanso y evitá llenar todos los días. Elegí unas pocas prioridades semanales y prepará con anticipación lo que necesites.';
+ if(s.includes('empez')||s.includes('procrastin'))return 'Reducí el primer paso: prepará la mochila, ponete las zapatillas o dejá listo lo que necesitás. Empezá con algo breve y después decidí cómo continuar.';
+ if(s.includes('nutri')||s.includes('comida')||s.includes('proteina')||s.includes('fruta')||s.includes('agua'))return `En Nutrición podés marcar si hoy incluiste alimentos variados, fuentes de proteína, frutas, verduras y agua. Tu registro de hoy: proteína ${nut.protein||'sin marcar'}, frutas ${nut.fruit||'sin marcar'}, verduras ${nut.veg||'sin marcar'} y agua ${nut.water||'sin marcar'}. No hace falta perseguir números: buscá variedad y comidas suficientes.`;
+ if(s.includes('descanso')||s.includes('dormir')||s.includes('cansad'))return 'El descanso también es parte de una rutina sostenible. Si estás muy cansado, enfermo o necesitás recuperarte, bajá la intensidad o descansá. Intentá mantener horarios de sueño regulares.';
+ return 'Puedo ayudarte con motivación, hábitos, progreso, gimnasio, organización semanal, nutrición, descanso y recordatorios. Probá escribir una de esas palabras o contame qué necesitás resolver.';
+}
+function addBubble(text,me=false){let b=document.createElement('div');b.className='bubble'+(me?' me':'');b.textContent=text;$('chat').appendChild(b);$('chat').scrollTop=$('chat').scrollHeight}
+function send(){let t=$('chatInput').value.trim();if(!t)return;addBubble(t,true);addBubble(assistantReply(t));$('chatInput').value=''}
+$('sendChat').onclick=send;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')send()});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>{ $('chatInput').value=b.dataset.prompt;send()});
+renderAll();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body></html>
